@@ -1,0 +1,133 @@
+class HospitalManagementSystem:
+    def _init_(self):
+        self.patients = []
+
+    def add_patient(self, patient_id, name, age, gender, contact):
+        patient = {
+            "id": patient_id,
+            "name": name,
+            "age": age,
+            "gender": gender,
+            "contact": contact,
+            "medical_history": []
+        }
+        self.patients.append(patient)
+        print("Patient added successfully!")
+
+    def search_patient_by_id(self, patient_id):
+        for patient in self.patients:
+            if patient["id"] == patient_id:
+                return patient
+        return None
+
+    def search_patient_by_name(self, name):
+        found_patients = []
+        for patient in self.patients:
+            if patient["name"].lower() == name.lower():
+                found_patients.append(patient)
+        return found_patients
+
+    def update_patient_details(self, patient):
+        print("\nUpdate Patient Details:")
+        print("1. Name")
+        print("2. Age")
+        print("3. Gender")
+        print("4. Contact")
+        choice = input("Enter your choice: ")
+
+        try:
+            if choice == "1":
+                new_name = input("Enter new name: ")
+                patient["name"] = new_name
+            elif choice == "2":
+                new_age = int(input("Enter new age: "))
+                patient["age"] = new_age
+            elif choice == "3":
+                new_gender = input("Enter new gender: ")
+                patient["gender"] = new_gender
+            elif choice == "4":
+                new_contact = input("Enter new contact number: ")
+                patient["contact"] = new_contact
+            else:
+                raise ValueError("Invalid choice")
+        except ValueError as e:
+            print("Error:", e)
+
+    def view_patient_list(self):
+        print("\nList of Patients:")
+        if self.patients:
+            for patient in self.patients:
+                print("ID:", patient["id"])
+                print("Name:", patient["name"])
+                print("Age:", patient["age"])
+                print("Gender:", patient["gender"])
+                print("Contact:", patient["contact"])
+                print("------------------------------")
+        else:
+            print("No patients found!")
+
+    def main(self):
+        while True:
+            print("1. Add Patient")
+            print("2. Search Patient by ID")
+            print("3. Search Patient by Name")
+            print("4. View Patient List")
+            print("5. Update Patient Details")
+            print("6. Exit")
+
+            choice = input("Enter your choice: ")
+
+            try:
+                if choice == "1":
+                    patient_id = int(input("Enter patient ID: "))
+                    name = input("Enter patient name: ")
+                    age = int(input("Enter patient age: "))
+                    gender = input("Enter patient gender: ")
+                    contact = input("Enter patient contact number: ")
+                    self.add_patient(patient_id, name, age, gender, contact)
+                elif choice == "2":
+                    patient_id = int(input("Enter patient ID: "))
+                    patient = self.search_patient_by_id(patient_id)
+                    if patient:
+                        print("Patient found:")
+                        print("Name:", patient["name"])
+                        print("Age:", patient["age"])
+                        print("Gender:", patient["gender"])
+                        print("Contact:", patient["contact"])
+                    else:
+                        print("Patient not found!")
+                elif choice == "3":
+                    name = input("Enter patient name: ")
+                    found_patients = self.search_patient_by_name(name)
+                    if found_patients:
+                        print("Patients found:")
+                        for patient in found_patients:
+                            print("Name:", patient["name"])
+                            print("ID:", patient["id"])
+                            print("Age:", patient["age"])
+                            print("Gender:", patient["gender"])
+                            print("Contact:", patient["contact"])
+                    else:
+                        print("No patients found with that name!")
+                elif choice == "4":
+                    self.view_patient_list()
+                elif choice == "5":
+                    patient_id = int(input("Enter patient ID to update: "))
+                    patient = self.search_patient_by_id(patient_id)
+                    if patient:
+                        self.update_patient_details(patient)
+                    else:
+                        print("Patient not found!")
+                elif choice == "6":
+                    print("Thank you for visiting")
+                    break
+                else:
+                    raise ValueError("Invalid choice. Please try again.")
+            except ValueError as e:
+                print("Error:", e)
+
+
+
+
+hospital_system = HospitalManagementSystem()
+hospital_system.main()
